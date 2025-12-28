@@ -1,0 +1,24 @@
+{
+  "name": "gmail-cli",
+  "version": "1.0.0",
+  "description": "Gmail CLI tool",
+  "type": "module",
+  "bin": {
+    "gmail": "./src/gmail.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["gmail", "cli", "email"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "google-auth-library": "^9.0.0",
+    "googleapis": "^133.0.0",
+    "nodemailer": "^6.9.0",
+    "mime-types": "^2.1.35",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.0"
+  }
+}
