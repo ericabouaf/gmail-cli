@@ -1,5 +1,5 @@
 {
-  "name": "@ericabouaf/gmail-cli",
+  "name": "simple-gmail-cli",
   "version": "1.0.0",
   "description": "Gmail CLI tool",
   "type": "module",

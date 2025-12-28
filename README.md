@@ -20,7 +20,7 @@ A command-line interface for Gmail.
 Install globally to use the `gmail` command anywhere:
 
 ```bash
-npm install -g @ericabouaf/gmail-cli
+npm install -g simple-gmail-cli
 ```
 
 ## Configuration
