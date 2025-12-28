@@ -4,13 +4,17 @@
   "description": "Gmail CLI tool",
   "type": "module",
   "bin": {
-    "gmail": "./src/gmail.js"
+    "gmail": "src/gmail.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["gmail", "cli", "email"],
-  "author": "",
+  "keywords": [
+    "gmail",
+    "cli",
+    "email"
+  ],
+  "author": "Eric Abouaf",
   "license": "ISC",
   "dependencies": {
     "commander": "^12.0.0",
