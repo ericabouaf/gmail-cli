@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name('gmail')
   .description('Gmail CLI tool')
-  .version('1.0.0')
+  .version('1.1.0')
   .option('--profile <name>', 'Profile to use', 'default');
 
 // Set profile before any command runs

@@ -7,10 +7,12 @@ A command-line interface for Gmail.
 - 🔐 OAuth2 authentication
 - 👥 Multi-profile support (multiple Gmail accounts)
 - 📧 Send emails with attachments (text/HTML)
+- 📝 Create drafts for review before sending
 - 💬 Reply to emails with proper threading
 - 🔍 Search emails using Gmail search syntax
 - 📎 Download attachments
 - 🏷️ Manage email labels
+- ⭐ Support for Gmail Superstar labels (colored stars and icons)
 - 📋 List labels
 - 📤 JSON export for scripting
 - 🎨 Beautiful colored output
@@ -165,6 +167,12 @@ gmail email send user@example.com \
   --cc colleague@example.com \
   --bcc manager@example.com \
   --attach notes.pdf
+
+# Create a draft instead of sending
+gmail email send user@example.com \
+  --subject "Draft for review" \
+  --bodyTxt "Please review before sending" \
+  --draft
 ```
 
 #### Reply to email
@@ -177,6 +185,9 @@ gmail email reply <messageId> --bodyHtml "<p>See attached</p>" --attach response
 
 # Reply with quoted original
 gmail email reply <messageId> --bodyTxt "I agree" --quote
+
+# Create a reply draft instead of sending
+gmail email reply <messageId> --bodyTxt "Draft reply for review" --draft
 ```
 
 ### Attachment Management
