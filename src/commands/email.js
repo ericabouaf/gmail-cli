@@ -130,6 +130,7 @@ emailCommand
   .option('--attach <file...>', 'Attach files (can be repeated)')
   .option('--cc <email...>', 'CC recipients (can be repeated)')
   .option('--bcc <email...>', 'BCC recipients (can be repeated)')
+  .option('--draft', 'Create a draft instead of sending')
   .option('--json', 'Output in JSON format')
   .action(async (to, options) => {
     try {
@@ -145,10 +146,17 @@ emailCommand
         attachments: options.attach,
         cc: options.cc,
         bcc: options.bcc,
+        draft: options.draft,
       });
 
       if (options.json) {
         console.log(JSON.stringify(result, null, 2));
+      } else if (options.draft) {
+        console.log(chalk.green('✓ Draft created successfully'));
+        console.log(`  Draft ID: ${result.id}`);
+        console.log(`  To: ${to}`);
+        console.log(`  Subject: ${options.subject}`);
+        console.log(`  View in Gmail: ${result.gmailUrl}`);
       } else {
         console.log(chalk.green('✓ Email sent successfully'));
         console.log(`  Message ID: ${result.id}`);
@@ -171,6 +179,7 @@ emailCommand
   .option('--bodyHtml <html>', 'HTML reply')
   .option('--attach <file...>', 'Attach files (can be repeated)')
   .option('--quote', 'Include original message in reply')
+  .option('--draft', 'Create a draft instead of sending')
   .option('--json', 'Output in JSON format')
   .action(async (messageId, options) => {
     try {
@@ -184,10 +193,16 @@ emailCommand
         bodyHtml: options.bodyHtml,
         attachments: options.attach,
         quote: options.quote,
+        draft: options.draft,
       });
 
       if (options.json) {
         console.log(JSON.stringify(result, null, 2));
+      } else if (options.draft) {
+        console.log(chalk.green('✓ Reply draft created successfully'));
+        console.log(`  Draft ID: ${result.id}`);
+        console.log(`  In reply to: ${messageId}`);
+        console.log(`  View in Gmail: ${result.gmailUrl}`);
       } else {
         console.log(chalk.green('✓ Reply sent successfully'));
         console.log(`  Message ID: ${result.id}`);

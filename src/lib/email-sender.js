@@ -91,14 +91,53 @@ async function buildMimeMessage(options) {
 }
 
 /**
+ * Create a draft email
+ */
+async function createDraft(gmail, encodedMessage, threadId = null) {
+  const requestBody = {
+    message: {
+      raw: encodedMessage,
+    },
+  };
+
+  if (threadId) {
+    requestBody.message.threadId = threadId;
+  }
+
+  const response = await gmail.users.drafts.create({
+    userId: 'me',
+    requestBody,
+  });
+
+  return response.data;
+}
+
+/**
+ * Generate Gmail URL for a draft
+ */
+function getDraftGmailUrl(draftId) {
+  return `https://mail.google.com/mail/u/0/#drafts?compose=${draftId}`;
+}
+
+/**
  * Send email
  */
 export async function sendEmail(options) {
-  const spinner = ora('Sending email...').start();
+  const { draft } = options;
+  const spinner = ora(draft ? 'Creating draft...' : 'Sending email...').start();
 
   try {
     const gmail = await getGmailClient();
     const encodedMessage = await buildMimeMessage(options);
+
+    if (draft) {
+      const draftData = await createDraft(gmail, encodedMessage);
+      spinner.succeed('Draft created');
+      return {
+        ...draftData,
+        gmailUrl: getDraftGmailUrl(draftData.id),
+      };
+    }
 
     const response = await gmail.users.messages.send({
       userId: 'me',
@@ -110,7 +149,7 @@ export async function sendEmail(options) {
     spinner.succeed('Email sent');
     return response.data;
   } catch (error) {
-    spinner.fail('Failed to send email');
+    spinner.fail(draft ? 'Failed to create draft' : 'Failed to send email');
     throw error;
   }
 }
@@ -119,7 +158,7 @@ export async function sendEmail(options) {
  * Reply to email
  */
 export async function replyToEmail(options) {
-  const { messageId, bodyTxt, bodyHtml, attachments, quote } = options;
+  const { messageId, bodyTxt, bodyHtml, attachments, quote, draft } = options;
 
   const spinner = ora('Fetching original message...').start();
 
@@ -181,7 +220,7 @@ export async function replyToEmail(options) {
       }
     }
 
-    spinner.text = 'Sending reply...';
+    spinner.text = draft ? 'Creating reply draft...' : 'Sending reply...';
 
     // Build reply with threading headers
     const encodedMessage = await buildMimeMessage({
@@ -196,18 +235,29 @@ export async function replyToEmail(options) {
       },
     });
 
+    const threadId = originalMessage.data.threadId;
+
+    if (draft) {
+      const draftData = await createDraft(gmail, encodedMessage, threadId);
+      spinner.succeed('Reply draft created');
+      return {
+        ...draftData,
+        gmailUrl: getDraftGmailUrl(draftData.id),
+      };
+    }
+
     const response = await gmail.users.messages.send({
       userId: 'me',
       requestBody: {
         raw: encodedMessage,
-        threadId: originalMessage.data.threadId,
+        threadId,
       },
     });
 
     spinner.succeed('Reply sent');
     return response.data;
   } catch (error) {
-    spinner.fail('Failed to send reply');
+    spinner.fail(draft ? 'Failed to create reply draft' : 'Failed to send reply');
     throw error;
   }
 }
