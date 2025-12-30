@@ -213,6 +213,53 @@ gmail email label add <messageId> "Follow Up"
 gmail email label remove <messageId> "Important"
 ```
 
+### Gmail Superstar Labels
+
+Gmail supports special "Superstar" labels (colored stars and icons) that can be used to organize emails. These labels use different identifiers for searching vs. adding/removing via the API.
+
+> **Note:** Adding a Superstar label automatically adds the `STARRED` label. Conversely, removing the `STARRED` label automatically removes any Superstar labels from the email.
+
+#### Superstar Reference Table
+
+| Name | Search Label | API Label | Icon |
+|------|--------------|-----------|------|
+| Yellow Star | `^ss_sy` | `YELLOW_STAR` | ⭐ |
+| Orange Star | `^ss_so` | `ORANGE_STAR` | 🟠 |
+| Red Star | `^ss_sr` | `RED_STAR` | 🔴 |
+| Purple Star | `^ss_sp` | `PURPLE_STAR` | 🟣 |
+| Blue Star | `^ss_sb` | `BLUE_STAR` | 🔵 |
+| Green Star | `^ss_sg` | `GREEN_STAR` | 🟢 |
+| Red Bang | `^ss_cr` | `RED_CIRCLE` | ❗ |
+| Orange Guillemet | `^ss_co` | `ORANGE_GUILLEMET` | » |
+| Yellow Guillemet | `^ss_cy` | `YELLOW_GUILLEMET` | » |
+| Green Check | `^ss_cg` | `GREEN_CHECK` | ✓ |
+| Blue Info | `^ss_cb` | `BLUE_INFO` | ℹ |
+| Purple Question | `^ss_cp` | `PURPLE_QUESTION` | ? |
+
+#### Search for emails with a Superstar
+```bash
+# Find emails with Red Bang
+gmail email search "label:^ss_cr"
+
+# Find unread emails with Green Check in inbox
+gmail email search "label:^ss_cg label:inbox is:unread"
+```
+
+#### Add a Superstar to an email
+```bash
+# Add Red Bang to an email
+gmail email label add <messageId> RED_CIRCLE
+
+# Add Green Check
+gmail email label add <messageId> GREEN_CHECK
+```
+
+#### Remove a Superstar from an email
+```bash
+# Remove Red Bang
+gmail email label remove <messageId> RED_CIRCLE
+```
+
 ## Examples
 
 ### Complete workflow
