@@ -12,6 +12,7 @@ A command-line interface for Gmail.
 - 🔍 Search emails using Gmail search syntax
 - 📎 Download attachments
 - 🏷️ Manage email labels
+- 📥 Archive emails
 - ⭐ Support for Gmail Superstar labels (colored stars and icons)
 - 📋 List labels
 - 📤 JSON export for scripting
@@ -190,6 +191,11 @@ gmail email reply <messageId> --bodyTxt "I agree" --quote
 gmail email reply <messageId> --bodyTxt "Draft reply for review" --draft
 ```
 
+#### Archive email
+```bash
+gmail email archive <messageId>
+```
+
 ### Attachment Management
 
 #### List attachments in a message
@@ -287,6 +293,9 @@ gmail email reply 18a2b3c4d5e6f7g8 --bodyTxt "Thanks, I'll review this"
 
 # Add a label
 gmail email label add 18a2b3c4d5e6f7g8 "Processed"
+
+# Archive the email (remove from inbox)
+gmail email archive 18a2b3c4d5e6f7g8
 ```
 
 ### Send email with both text and HTML versions
