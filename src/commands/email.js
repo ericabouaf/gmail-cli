@@ -215,6 +215,31 @@ emailCommand
     }
   });
 
+// Archive command
+emailCommand
+  .command('archive')
+  .description('Archive an email (remove from inbox)')
+  .argument('<messageId>', 'Gmail message ID')
+  .action(async (messageId) => {
+    try {
+      const gmail = await getGmailClient();
+
+      await gmail.users.messages.modify({
+        userId: 'me',
+        id: messageId,
+        requestBody: {
+          removeLabelIds: ['INBOX'],
+        },
+      });
+
+      console.log(chalk.green('✓ Email archived successfully'));
+      console.log(`  Message ID: ${messageId}`);
+    } catch (error) {
+      console.error('Error:', error.message);
+      process.exit(1);
+    }
+  });
+
 // Label subcommand for emails
 const labelSubCommand = emailCommand
   .command('label')
